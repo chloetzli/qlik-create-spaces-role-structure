@@ -1,0 +1,1 @@
+# qlik-create-spaces-role-structure
