@@ -6,7 +6,6 @@ from dataclasses import asdict, dataclass
 from qlik_sdk import Auth, Config
 from qlik_sdk import ListableResource
 
-
 @dataclass
 class Group:
     """
