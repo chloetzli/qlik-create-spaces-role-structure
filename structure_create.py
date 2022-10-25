@@ -33,8 +33,24 @@ def createSpaces(conf, groupIds):
         """
         Set Permissions
         """
-        dev_space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_administrator_id'), roles=constants.ROL_SHARED_ADMINISTRATOR, type='group'))
-        dev_space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_developer_id'), roles=constants.ROL_SHARED_DEVELOPER, type='group'))
+        dev_space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_administrator_id'), roles=constants.ROL_DEV_ADMINISTRATOR, type='group'))
+        dev_space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_developer_id'), roles=constants.ROL_DEV_DEVELOPER, type='group'))
+        if constants.ROL_DEV_USER: dev_space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_user_id'), roles=constants.ROL_DEV_USER, type='group'))
+
+        """
+        Create Shared Spaces for test
+        """
+        
+        space_name_test = [constants.PROJECT_PREFIX, constants.PROJECT_NAME, constants.PROJECT_SUB_NAME, constants.PROJECT_TEST_SUFFIX, str(a)]
+        test_space = spaces.create(SpaceCreate(name='_'.join(space_name_test), type="shared", description=""))
+        
+        """
+        Set Permissions
+        """
+        test_space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_administrator_id'), roles=constants.ROL_TEST_ADMINISTRATOR, type='group'))
+        test_space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_developer_id'), roles=constants.ROL_TEST_DEVELOPER, type='group'))
+        if constants.ROL_TEST_USER: test_space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_user_id'), roles=constants.ROL_TEST_USER, type='group'))
+
 
         """
         Create Managed Spaces for Endusers
@@ -46,22 +62,22 @@ def createSpaces(conf, groupIds):
         """
         Set Permissions
         """
-        space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_administrator_id'), roles=constants.ROL_MANAGED_ADMINISTRATOR, type='group'))
-        space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_developer_id'), roles=constants.ROL_MANAGED_DEVELOPER, type='group'))
-        space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_user_id'), roles=constants.ROL_MANAGED_USER, type='group'))
+        space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_administrator_id'), roles=constants.ROL_PROD_ADMINISTRATOR, type='group'))
+        space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_developer_id'), roles=constants.ROL_PROD_DEVELOPER, type='group'))
+        space.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_user_id'), roles=constants.ROL_PROD_USER, type='group'))
 
         a += 1
     """
     Create Managed Spaces for Dataconnections
     """
-
-    space_name_def = [constants.PROJECT_PREFIX, constants.PROJECT_NAME, constants.PROJECT_SUB_NAME, constants.PROJECT_DATACONNECTION_SUFFIX, str(a)]
-    space_data = spaces.create(SpaceCreate(name='_'.join(space_name_def), type="managed", description=""))
-        
-    """
-    Set Permissions
-    """
-    space_data.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_administrator_id'), roles=constants.ROL_MANAGED_DATA_ADMINISTRATOR, type='group'))
+    if constants.ROL_MANAGED_DATA_ADMINISTRATOR: 
+        space_name_def = [constants.PROJECT_PREFIX, constants.PROJECT_NAME, constants.PROJECT_SUB_NAME, constants.PROJECT_DATACONNECTION_SUFFIX, str(a)]
+        space_data = spaces.create(SpaceCreate(name='_'.join(space_name_def), type="managed", description=""))
+            
+        """
+        Set Permissions
+        """
+        space_data.create_assignment(AssignmentCreate(assigneeId=groupIds.get('grp_project_administrator_id'), roles=constants.ROL_MANAGED_DATA_ADMINISTRATOR, type='group'))
 
 
 

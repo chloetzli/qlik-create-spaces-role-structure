@@ -248,7 +248,7 @@ class Groups:
 
         try:
             data = asdict(data)
-            print(data)
+            
         except:
             data = data
 
