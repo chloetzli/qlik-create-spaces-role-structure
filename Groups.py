@@ -1,6 +1,3 @@
-# This is spectacularly generated code by spectacular v0.0.0 based on
-# Qlik Cloud Services 0.384.10
-
 from __future__ import annotations
 
 import warnings
